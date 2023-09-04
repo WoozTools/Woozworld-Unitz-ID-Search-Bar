@@ -1,0 +1,47 @@
+var existingContainer = document.querySelector('.search-bar-container');
+var containerId = "customSearchBarContainer" + Math.floor(Math.random() * 1000);
+var inputId = "customSearchInput" + Math.floor(Math.random() * 1000);
+var newHTML = '<div id="' + containerId + '" style="position:absolute; z-index: 1; left:50%; transform: translateX(-50%); top:11px;"> <div class="search-bar-container"> <input style="width:150px" width=60% class="search-bar" placeholder="Recherche un Unitz ID..." type="text" id="' + inputId + '" maxlength="15"/> <div class="icon" onclick="handleIconClick(event)"></div> </div> </div> <div style="position:absolute; left:50%; transform: translateX(-50%); top:15px;"> <a id="unitidlol" href="" class="gotoUnitz unit" onclick="gotoUnitz(event)"></a> </div>';
+var containerDiv = document.createElement('div');
+containerDiv.innerHTML = newHTML;
+containerDiv.style.position = 'relative';
+containerDiv.style.left = '40.6%';
+containerDiv.style.transform = 'translateX(-50%)';
+containerDiv.style.top = '-11px';
+existingContainer.parentNode.insertBefore(containerDiv, existingContainer.nextSibling);
+var input = document.getElementById(inputId);
+var iconButton = containerDiv.querySelector('.icon');
+var gotoLink = containerDiv.querySelector('.gotoUnitz');
+function handleEnterKey(event) {
+  event.preventDefault();
+  gotoUnitz(event);
+  input.value = "";
+  input.focus();
+}
+input.addEventListener('keydown', function(event) {
+  if (event.keyCode === 13) {
+    handleEnterKey(event);
+  }
+});
+function handleInputChange(event) {
+  if (event.target.value === "") {
+    input.classList.remove('hidden');
+  } else if (input.classList.contains('hidden')) {
+    input.classList.remove('hidden');
+    input.focus();
+  }
+}
+input.addEventListener('input', handleInputChange);
+function gotoUnitz(event) {
+  event.preventDefault();
+  var kek = encodeURIComponent(input.value);
+  document.getElementById('unitidlol').setAttribute('href', kek + '-fr');
+  document.getElementById('unitidlol').click();
+}
+function handleIconClick(event) {
+  event.stopPropagation();
+  gotoLink.click();
+}
+iconButton.addEventListener('click', handleIconClick);
+var gotoButton = document.querySelector('.gotoUnitz');
+gotoButton.style.visibility = 'hidden';
